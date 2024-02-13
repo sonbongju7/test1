@@ -1,0 +1,69 @@
+https://www.eclipse.org/downloads/
+https://www.eclipse.org/downloads/download.php?file=/oomph/epp/2023-12/R/eclipse-inst-jre-win64.exe
+
+https://apache.org/
+
+python
+
+print
+[]
+if :
+elif
+else
+
+in
+중고차들
+
+for i  in  range(0,10) :
+  print('BMW 있어요')
+
+
+print(중고차들[0]])
+print(중고차들[1]])
+print(중고차들[2])
+
+for i in 중고차들 :
+print)i)
+
+def 인사하기() :
+  print('안녕하세요')
+ print('안녕하세요')
+ print('안녕하세요')
+
+인사하기()
+
+def 모자(구멍) :
+print(구멍)
+
+모자(구멍) 
+
+def 함수() :
+return 10
+
+
+중고자 = ['','',]
+
+중고차.sort()
+reverse()
+{} : dictionary
+
+https://redis.io/download/
+
+https://github.com/microsoftarchive/redis
+https://diary-developer.tistory.com/9
+
+…or create a new repository on the command line
+echo "# test1" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/sonbongju7/test1.git
+git push -u origin main
+…or push an existing repository from the command line
+git remote add origin https://github.com/sonbongju7/test1.git
+git branch -M main
+git push -u origin main
+…or import code from another repository
+You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
+
