@@ -22,10 +22,10 @@ jobs:
 
     - name: Copy files to server
       run: |
-        scp -o StrictHostKeyChecking=no -i ${{ secrets.LIGHTSAIL_SSH_KEY }} -r ./* ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }}:/path/to/remote/directory
+        scp -o StrictHostKeyChecking=no -i ${{ secrets.LIGHTSAIL_SSH_KEY }} -r ./* ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }}:/var/www
       # GitHub 저장소의 파일을 Lightsail 서버의 지정된 디렉토리로 복사합니다.
 
     - name: Restart service
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.LIGHTSAIL_SSH_KEY }} ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} 'sudo systemctl restart your-service'
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.LIGHTSAIL_SSH_KEY }} ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} 'sudo systemctl enable apache2'
       # 서버에서 서비스를 재시작하여 새로운 파일로 업데이트합니다.
