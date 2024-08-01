@@ -22,7 +22,7 @@ jobs:
       run: |
         echo "LIGHTSAIL_USER=${{secrets.LIGHTSAIL_USER}}"
         echo "LIGHTSAIL_HOST=${{secrets.LIGHTSAIL_HOST}}"
-        echo "SSH_PRIVATE_KEY_EXISTS=$(test -e /tmp/ssh-key && echo 'true' || echo 'false')"
+        echo "SSH_PRIVATE_KEY_EXISTS=$(test -e /home/${{secrets.LIGHTSAIL_USER}}/.ssh/id_rsa && echo 'true' || echo 'false')"
       # 비밀값이 올바르게 설정되었는지 간접적으로 확인합니다.
 
     - name: Set up SSH
