@@ -26,7 +26,7 @@ jobs:
 
     - name: Copy files to server
       run: |
-        scp -o StrictHostKeyChecking=no -i ${{ secrets.LIGHTSAIL_SSH_KEY }} -r * ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}}:/var/www
+        scp -o StrictHostKeyChecking=no -i ${{secrets.LIGHTSAIL_SSH_KEY}} -r * ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}}:/var/www
       # GitHub 저장소의 파일을 Lightsail 서버의 지정된 디렉토리로 복사합니다.
 
     - name: Verify files on server
