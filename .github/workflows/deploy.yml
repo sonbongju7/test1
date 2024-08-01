@@ -34,18 +34,18 @@ jobs:
     - name: Copy files to server
       run: |
         echo "Copying files to server..."
-        scp -o StrictHostKeyChecking=no -i /home/ubuntu/.ssh/id_rsa -r * ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}}:/var/www
+        scp -o StrictHostKeyChecking=no -i /home/${{secrets.LIGHTSAIL_USER}}/.ssh/id_rsa -r * ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}}:/var/www
       # GitHub 저장소의 파일을 Lightsail 서버의 지정된 디렉토리로 복사합니다.
 
     - name: Verify files on server
       run: |
         echo "Verifying files on server..."
-        ssh -o StrictHostKeyChecking=no -i /home/ubuntu/.ssh/id_rsa ${{ secrets.LIGHTSAIL_USER}}@${{ secrets.LIGHTSAIL_HOST}} 'ls -alh /var/www'
+        ssh -o StrictHostKeyChecking=no -i /home/${{secrets.LIGHTSAIL_USER}}/.ssh/id_rsa ${{secrets.LIGHTSAIL_USER}}@${{ secrets.LIGHTSAIL_HOST}} 'ls -alh /var/www'
       # 서버에서 파일 목록을 나열하여 복사가 성공적으로 이루어졌는지 확인합니다.
 
     - name: Restart Apache service
       run: |
         echo "Restarting Apache service..."
-        ssh -o StrictHostKeyChecking=no -i /home/ubuntu/.ssh/id_rsa ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}} 'sudo systemctl restart apache2'
+        ssh -o StrictHostKeyChecking=no -i /home/${{secrets.LIGHTSAIL_USER}}/.ssh/id_rsa ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}} 'sudo systemctl restart apache2'
 
       # Apache 서비스를 재시작하고 상태를 확인합니다.
