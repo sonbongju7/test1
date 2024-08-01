@@ -3,7 +3,7 @@ name: Deploy to Lightsail
 on:
   push:
     branches:
-      - main
+      - main  # 또는 작업하려는 브랜치 이름
 
 jobs:
   deploy:
@@ -12,22 +12,20 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      # 이 단계에서 GitHub 저장소의 파일을 로컬 워크플로우 환경에 체크아웃합니다.
 
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{secrets.LIGHTSAIL_SSH_KEY}}
+        ssh-private-key: ${{ secrets.LIGHTSAIL_SSH_KEY }}
+      # SSH 키를 설정하여 Lightsail 서버에 접근할 수 있게 합니다.
 
-    - name: Deploy to Lightsail
+    - name: Copy files to server
       run: |
-        # SSH into the Lightsail instance
-        ssh -o StrictHostKeyChecking=no ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}} << 'EOF'
-          # Navigate to the project directory
-          cd /var/www
+        scp -o StrictHostKeyChecking=no -i ${{ secrets.LIGHTSAIL_SSH_KEY }} -r ./* ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }}:/path/to/remote/directory
+      # GitHub 저장소의 파일을 Lightsail 서버의 지정된 디렉토리로 복사합니다.
 
-          # Pull the latest changes
-          git pull origin main
-
-          # Restart the service if needed
-          sudo systemctl restart your-service
-        EOF
+    - name: Restart service
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.LIGHTSAIL_SSH_KEY }} ${{ secrets.LIGHTSAIL_USER }}@${{ secrets.LIGHTSAIL_HOST }} 'sudo systemctl restart your-service'
+      # 서버에서 서비스를 재시작하여 새로운 파일로 업데이트합니다.
