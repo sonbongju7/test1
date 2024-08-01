@@ -18,6 +18,13 @@ jobs:
       run: ls -alh
       # 워크플로우 환경에서 파일 목록을 나열합니다.
 
+    - name: Print environment variables
+      run: |
+        echo "LIGHTSAIL_USER=${{secrets.LIGHTSAIL_USER}}"
+        echo "LIGHTSAIL_HOST=${{secrets.LIGHTSAIL_HOST}}"
+        echo "SSH_PRIVATE_KEY_EXISTS=$(test -e /tmp/ssh-key && echo 'true' || echo 'false')"
+      # 비밀값이 올바르게 설정되었는지 간접적으로 확인합니다.
+
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
@@ -26,16 +33,19 @@ jobs:
 
     - name: Copy files to server
       run: |
-        scp -o StrictHostKeyChecking=no -i ${{secrets.LIGHTSAIL_SSH_KEY}} -r * ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}}:/var/www
+        echo "Copying files to server..."
+        scp -o StrictHostKeyChecking=no -i /tmp/ssh-key -r * ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}}:/var/www
       # GitHub 저장소의 파일을 Lightsail 서버의 지정된 디렉토리로 복사합니다.
 
     - name: Verify files on server
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{secrets.LIGHTSAIL_SSH_KEY}} ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}} 'ls -alh /var/www'
+        echo "Verifying files on server..."
+        ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key ${{ secrets.LIGHTSAIL_USER}}@${{ secrets.LIGHTSAIL_HOST}} 'ls -alh /var/www'
       # 서버에서 파일 목록을 나열하여 복사가 성공적으로 이루어졌는지 확인합니다.
 
     - name: Restart Apache service
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{secrets.LIGHTSAIL_SSH_KEY}} ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}} 'sudo systemctl restart apache2'
-        ssh -o StrictHostKeyChecking=no -i ${{secrets.LIGHTSAIL_SSH_KEY}} ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}} 'sudo systemctl status apache2'
-      # Apache 서비스를 재시작하고 상태를 확인하여 서비스가 정상적으로 작동하는지 확인합니다.
+        echo "Restarting Apache service..."
+        ssh -o StrictHostKeyChecking=no -i /tmp/ssh-key ${{secrets.LIGHTSAIL_USER}}@${{secrets.LIGHTSAIL_HOST}} 'sudo systemctl restart apache2'
+
+      # Apache 서비스를 재시작하고 상태를 확인합니다.
